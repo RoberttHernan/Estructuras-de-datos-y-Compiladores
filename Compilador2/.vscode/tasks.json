@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Generar ANTLR",
+            "type": "shell",
+            "command": "java",
+            "args": [
+                "-jar",
+                "/usr/local/lib/antlr-4.13.2-complete.jar",
+                //"C:\\JavaLib\\antlr-4.13.2-complete.jar",
+                "-Dlanguage=CSharp",
+                "-visitor",
+                "-o",
+                "Generado",
+                "gramatica.g4"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,0 +1,83 @@
+// test para variables
+    
+var x int = 10;
+var y float64 = 20.5;
+var z string = "Hola Mundo";
+var b bool = true;
+
+
+//Test para operaciones aritmeticas
+var suma int = 10 + 5;
+var resta float64 = 20.5 - 10.3;
+var multiplicacion int = 5 * 3;
+var division float64 = 20.0 / 4.0;
+var modulo int = 10 % 3;
+
+/// test para bucles
+
+if x > 5 {
+    fmt.Println("x es mayor que 5");
+} else {
+    fmt.Println("x es menor o igual a 5");
+}
+
+for var i int = 0; i < 10; i++ {
+    fmt.Println(i);
+}
+
+/// test para funciones y llamadas
+
+func suma(a int, b int) int {
+    return a + b;
+}
+
+fmt.Println(suma(3, 4));  // Debe imprimir 7
+
+
+
+test para structs
+
+struct Persona {
+    string Nombre;
+    int Edad;
+    bool EsEstudiante;
+}
+
+var p Persona;
+p.Nombre = "Juan";
+p.Edad = 25;
+p.EsEstudiante = true;
+fmt.Println(p.Nombre, p.Edad, p.EsEstudiante);
+
+
+// test para slices y operaciones relacionales
+
+var numeros []int = []int{1, 2, 3, 4, 5};
+fmt.Println(len(numeros));  // Debe imprimir 5
+
+numeros = append(numeros, 6);
+fmt.Println(numeros);  // Debe imprimir [1, 2, 3, 4, 5, 6]
+
+fmt.Println(slices.Index(numeros, 4));  // Debe imprimir 3
+
+
+// test para funciones embedidas
+fmt.Println("Hola, GoLight!");  // Salida: "Hola, GoLight!"
+fmt.Println(strconv.Atoi("123"));  // Debe imprimir 123
+fmt.Println(strconv.ParseFloat("123.45"));  // Debe imprimir 123.45
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+func main () {
+    ... listadeclaracion or listaSentencia 0 o mas veces
+
+    //declaracion de variables 
+    var x int = 10;
+    var y float64 = 20.5;
+    var z string = "Hola Mundo";
+    var b bool = true;
+
+}

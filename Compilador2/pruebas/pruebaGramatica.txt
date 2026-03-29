@@ -1,0 +1,216 @@
+
+
+
+
+prog -> RESFUNC RESMAIN PARABRE PARCIERRA CORABRE (listaDeclaracion | listaSentencia)* CORCIERRA
+
+
+
+
+// serue de sentencias o declaraciones agrupadas por {}
+lista_instrucciones ->  CORABRE (listaDeclaracion|listaSentencia)* CORCIERRA
+
+
+                
+
+
+-----------------------------------------------------------------declaraciones -----------------------------------------------------------------------
+
+
+listaDeclaracion -> declaracion_variable // faltan declaracion de funciones y estructuras de datos
+                    |declaracion_funcion
+                    |declaracion_struct
+
+declaracion_variable -> RESVAR IDENTIFICADOR tipo (SIGNO_IGUAL expresion)? PUNTO_COMA?
+                    |IDENTIFICADOR DOS_PUNTOS SIGNO_IGUAL expresion //declaracion por inferencia
+
+
+declaracion_funcion -> RESFUNC IDENTIFICADOR PARABRE (lista_parametros)? PARCIERRA tipo? CORABRE lista_instrucciones CORCIERRA
+
+declaracion_struct -> RESSTRUCT IDENTIFICADOR CORABRE (lista_atributos)+ CORCIERRA
+
+lista_atributos -> tipo IDENTIFICADOR PUNTO_COMA
+
+
+---------------------------------------------------------------------sentencias y asignaciones -----------------------------------------------------------------------
+listaSentencia -> sentencia_asignacion
+                |sentencia_if
+                |sentencia_for (pendiente)
+                |sentencia_switch 
+                |sentencia_return
+                |sentencia_break
+                |sentencia_continue
+                |llamada_funcion
+
+
+
+
+sentencia_asignacion -> IDENTIFICADOR (SIGNO_MAS SIGNO_IGUAL | SIGNO_MENOS SIGNO_IGUAL)  expresion (PUNTO_COMA)?
+                    |IDENTIFICADOR SIGNO_IGUAL  expresion (PUNTO_COMA)?
+
+
+sentencia_if -> intruccion_if (instruccion_if_else)* (intruccion_else)*
+
+intruccion_if -> RESIF (PARABRE expresion PARCIERRA | expresion) lista_instrucciones
+
+instruccion_if_else -> RESELSE RESIF (PARABRE expresion PARCIERRA | expresion) lista_instrucciones
+
+instruccion_else -> RESELSE lista_instrucciones 
+
+
+sentencia_for : RESFOR (expresion | (declaracion_asignacion ';' expresion? ';' declaracion_asignacion)? | (IDENTIFICADOR ',' IDENTIFICADOR DOS_PUNTOS SIGNO_IGUAL RESRANGE IDENTIFICADOR) ) bloque;
+// ciclofor -> 'for' (condicion | clausulaFor | clausulaRango) bloque ///////////
+
+
+////////prueba de for (no funcionando al 100)
+ciclo_for->
+    'for' (inicializacion=declaracion_variable)? condicion=expr? (';' incremento=expr)? '{' sentencia* '}'
+    | 'for' condicion=expr '{' sentencia* '}'
+    | 'for' '{' sentencia* '}'
+    ;
+
+sentencia_switch -> RESSWITCH expresion LLAVEABRE (bloque_caso)* (bloque_default)? LLAVECIERRA;
+
+bloque_caso -> RESCASE expresion DOS_PUNTOS (listaSentencia)*;
+bloque default ->  RESDEFAULT DOS_PUNTOS (listaSentencia)*;
+                
+
+sentencia_return -> RESRETURN (expresion)? (PUNTO_COMA)?
+
+
+-------------------------------------------------------------------------ciclos de control --------------------------------------------------------------------
+
+//posible error al momento de declarar las instrucciones, posible solucion, agregar como condicion un salto de linea o arregarlo de manera semantica
+sentencia_if -> RESIF (PARABRE expresion PARCIERRA | expresion)   lista_instrucciones (RESELSE lista_instrucciones )?
+
+//// sentencia for pendiente
+
+sentencia_switch -> RESSWITCH expresion CORABRE (sentencia_caso)* (sentencia_default)? CORCIERRA
+
+sentencia_caso -> RESCASE expresion DOS_PUNTOS (listaSentencia)*
+
+sentencia_default -> RESDEFAULT DOS_PUNTOS (listaSentencia)*
+
+
+sentencia_return -> RESRETURN expresion (PUNTO_COMA)?
+
+sentencia_break -> RESBREAK (DOS_PUNTOS)?
+
+sentencia_continue -> RESCONTINUE (DOS_PUNTOS)?
+
+-------------------------------Expresiones ----------------------------------------------------------------------------------------------------------
+
+expresion -> simpleExpresion (SIGNO_COMA simpleExpresion)*
+            | simpleExpresion (SIGNO_MULTI | SIGNO_DIV simpleExpresion)
+            | simpleExpresion (SIGNO_MAS | SIGNO_MENOS simpleExpresion)
+            | SIGNO_MENOS simpleExpresion
+            | simpleExpresion (SIGNO_AND | SIGNO_OR simpleExpresion)
+            | simpleExpresion (SIGNO_IGUAL SIGNO_IGUAL | SIGNO_NOT SIGNO_IGUAL simpleExpresion)
+            | simpleExpresion (SIGNO_MENOSQUE | SIGNO_MENOSQUE SIGNO_IGUAL | SIGNO_MASQUE SIGNO_IGUAL simpleExpresion)
+            | llamada_funcion
+            |IDENTIFICADOR (SIGNO_MAS SIGNO_MAS | SIGNO_MENOS SIGNO_MENOS)
+            ;
+
+simpleExpresion -> PARABRE expresion PARCIERRA
+                | IDENTIFICADOR
+                | INT
+                | FLOAT
+                | CADENA
+                | BOOL
+                | RUNE
+                ;
+
+---------------------------------------------------------------funciones --------------------------------------------------------------------------------
+
+llamada_funcion -> IDENTIFICADOR PARABRE (lista_argumentos)? PARCIERRA
+
+lista_parametros -> parametro (',' parametro)*
+parametro -> tipo IDENTIFICADOR
+
+
+lista_argumentos -> expresion (',' expresion)*
+-------------------------------------------------------------------------------tipos de variables ---------------------------------------------------------
+//probable agregar IDENTIFICADOR como tipo de variable
+tipo -> RESINT
+    |RESFLOAT
+    |RESSTRING
+    |RESBOOL
+    |RESRUNE
+    |RESSLICE
+
+
+--------------------------------------------------------------------Signos  ----------------------------------
+PARABRE -> '('
+PARCIERRA -> ')'
+LLAVEABRE -> '{'
+LLAVECIERRA -> '}'
+CORABRE -> '['
+CORCIERRA -> ']'
+PUNTO_COMA -> ';'
+DOS_PUNTOS -> ':'
+SIGNO_MULTI -> '*'
+SIGNO_DIV -> '/'
+SIGNO_MAS -> '+'
+SIGNO_MENOS -> '-'
+SIGNO_AND -> '&&'
+SIGNO_OR -> '||'
+SIGNO_NOT -> '!'
+SIGNO_IGUAL -> '='
+SIGNO_MENOSQUE -> '<'
+SIGNO_MASQUE -> '>'
+
+
+
+-------------------------------------------------------------------------------Palabras reservadas --------------------------------------------------------
+RESVAR -> 'var'
+RESINT -> 'int'
+RESFLOAT -> 'float64'
+RESSTRING -> 'string'
+RESBOOL ->   'bool'
+RESRUNE -> 'rune'
+RESSLICE -> 'slice'
+RESTRUE -> 'true'
+RESFALSE -> 'false'
+RESSTRUCT -> 'struct'
+
+RESIF -> 'if'
+RESELSE -> 'else'
+RESFOR -> 'for'
+RESSWITCH -> 'switch'
+RESCASE -> 'case'
+RESDEFAULT -> 'default'
+RESRANGE -> 'range'
+RESRETURN -> 'return'
+RESBREAK -> 'break'
+RESCONTINUE -> 'continue'
+
+
+
+
+-----------------------------------------------------------------------------Tokens para lexer -------------------------------------------------------------
+IDENTIFICADOR -> [a-zA-Z]+('_')?([0-9]+)?;
+INT ->  [0-9]+;
+FLOAT -> [0-9]+'.'[0-9]+;
+CADENA -> '"' .*? '"'
+ESPACION -> [ \t\r\n]+
+COMENTARIO -> '//' ~[\r\n]*
+            |'/*' .*? '*/'
+BOOL -> RESTRUE| RESFALSE
+RUNE -> '\'' . '\''
+
+
+
+
+
+
+
+
+public override void NotifyListeners(LexerNoViableAltException e)
+    {
+		string text = ((ICharStream)InputStream).GetText(Interval.Of(TokenStartCharIndex, InputStream.Index));
+		string msg = $"Error léxico, Caracte desconocido '{text}' en la línea {Line} y columna {Column}";
+		Console.WriteLine(msg);
+		
+		base.NotifyListeners(e);
+    }
+}

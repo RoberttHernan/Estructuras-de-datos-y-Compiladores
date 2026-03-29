@@ -4,6 +4,22 @@ Coleccion de proyectos que implementan estructuras de datos fundamentales en C++
 
 ## Proyectos
 
+### Compilador Go-like en C# (`Compilador2/`)
+
+Interprete de recorrido de arbol para un lenguaje con sintaxis inspirada en Go, implementado en C# con ANTLR4 y Avalonia (UI cross-platform). Demuestra la construccion de un frontend completo de compilador con interfaz grafica.
+
+Tecnologias y conceptos implementados:
+- **ANTLR4**: generacion automatica del lexer y parser en C# desde una gramatica `.g4`.
+- **Patron Visitor**: recorrido del arbol de parseo para ejecutar el codigo directamente.
+- **Pila de ambitos** (`ScopeManager`): manejo de alcance lexico con verificacion y conversion de tipos.
+- **Avalonia + ReactiveUI**: interfaz grafica MVVM con editor de codigo, consola de salida y lista de errores.
+- Tipos soportados: `int`, `float64`, `string`, `bool`, `rune`, slices.
+- Funciones embebidas: `fmt.Println`, `strconv`, `reflect`, `slices`, `strings`.
+
+Lenguaje: C# .NET 8 | Dependencias: ANTLR4 Runtime, Avalonia 11, ReactiveUI
+
+---
+
 ### Interprete V-Lang Cherry en Go (`Interprete Vlang Cherry/`)
 
 Interprete de recorrido de arbol (tree-walking interpreter) para un lenguaje de programacion personalizado con sintaxis inspirada en V-Lang. Demuestra el pipeline completo de un compilador/interprete: analisis lexico, sintactico y semantico, construccion de AST y evaluacion.

@@ -1,0 +1,24 @@
+
+func main() {
+	puntos := 0
+
+	fmt.Println("=== Archivo de prueba básico ===")
+
+	// 1. Declaración de variables (2 puntos)
+	fmt.Println("==== Declaración de variables ====")
+	puntosDeclaracion := 0
+
+	fmt.Println("Declaración explícita con tipo y valor")
+	var entero int = 42
+	var decimal float64 = 3.14159
+	var texto string = "Hola, mundo!"
+	var booleano bool = true
+
+	fmt.Println("entero:", entero)
+	fmt.Println("decimal:", decimal)
+	fmt.Println("texto:", texto)
+	fmt.Println("booleano:", booleano)
+
+
+
+}
